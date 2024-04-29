@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js';
-import { getDatabase, ref, push, set, onValue } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js';
+import { getDatabase, ref, push, set, onValue, remove } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js';
 
 const appSettings = {
     apiKey: "AIzaSyDhvm-yHxWDIUM06Z1m4ADQmcpUpGBrTLY",
@@ -41,29 +41,36 @@ addBtn.addEventListener('click', () => {
 
 //Fetching Items on the Database
 onValue(shoppingListInDB, (snapshot) => {
-    clearShoppingList();
-    // let itemsArray = Object.values(snapshot.val());
-    let itemsArray = Object.entries(snapshot.val());
 
-    console.log('This is the Items Array');
-    console.log(itemsArray);
-    
-    for (let i = 0; i < itemsArray.length; i++) {
+    if (snapshot.exists()) {
+        clearShoppingList();
+        // let itemsArray = Object.values(snapshot.val());
+        // 2D Array
+        let itemsArray = Object.entries(snapshot.val());
 
-        let currentItem = itemsArray[i];
-        console.log('This is the Current Items');
-        console.log(currentItem);
+        console.log('This is the Items Array');
+        console.log(itemsArray);
+        
+        for (let i = 0; i < itemsArray.length; i++) {
 
-        let currentItemID = currentItem[0];
-        console.log('This is the Current Items ID');
-        console.log(currentItemID);
-        let currentItemValue = currentItem[1];
-        console.log('This is the Current Items Value');
-        console.log(currentItemValue);
+            let currentItem = itemsArray[i];
+            console.log('This is the Current Items');
+            console.log(currentItem);
 
-        addItemToShoppingList(currentItemValue);
-        // addItemToShoppingList(itemsArray[i])
+            let currentItemID = currentItem[0];
+            console.log('This is the Current Items ID');
+            console.log(currentItemID);
+            let currentItemValue = currentItem[1];
+            console.log('This is the Current Items Value');
+            console.log(currentItemValue);
+
+            addItemToShoppingList(currentItem);
+            // addItemToShoppingList(itemsArray[i])
+        }
+    } else {
+        shoppingList.innerHTML = 'No items added yet...';
     }
+    
 })
 
 function clearShoppingList(){
@@ -75,7 +82,15 @@ function clearInputField(){
 }
 
 function addItemToShoppingList(item){
+    let itemID = item[0]
+    let itemValue = item[1]
     let li = document.createElement('li');
-    li.textContent = item;
+    li.tabIndex = 0;
+    li.textContent = itemValue;
+
+    li.addEventListener('dblclick', () => {
+        let exactLocationInDB = ref(database, 'shoppingList/' + itemID);
+        remove(exactLocationInDB);
+    })
     shoppingList.appendChild(li);
 }
