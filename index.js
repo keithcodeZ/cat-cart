@@ -29,15 +29,70 @@ const addBtn = document.getElementById('add-button');
 const inputField = document.getElementById('input-field');
 const shoppingList = document.getElementById('shopping-list');
 
-//Pushing Items on the Database
 addBtn.addEventListener('click', () => {
+    
+    console.log('it gets in here')
+
     let inputValue = inputField.value;
+
+    if (inputValue.trim() === '') {
+        alert('Please enter an item before adding to the cart.');
+        return; // Exit the function if the input field is empty
+    }
 
     push(shoppingListInDB, inputValue);
 
     clearInputField();
+    
+});
 
-})
+// addBtn.disabled = true;
+// let inputValue = inputField.value;
+
+//Pushing Items on the Database
+// function addToList() {
+//     let inputValue = inputField.value;
+
+//     if (inputValue === '') {
+//         addBtn.disabled = true;
+//     } else {
+//         console.log('it gets in here')
+
+//     let inputValue = inputField.value;
+
+//     push(shoppingListInDB, inputValue);
+
+//     clearInputField();
+//     }
+// }
+
+// addToList()
+
+// if (inputValue !== '') {
+//     addBtn.disabled = false;
+
+// } else {
+
+// }
+
+// if  (inputField.value == null) {
+    
+// } else {
+//     addBtn.disabled = false;
+//     addBtn.addEventListener('click', () => {
+    
+//     console.log('it gets in here')
+
+//     let inputValue = inputField.value;
+
+//     push(shoppingListInDB, inputValue);
+
+//     clearInputField();
+    
+//     })
+// }
+
+
 
 //Fetching Items on the Database
 onValue(shoppingListInDB, (snapshot) => {
@@ -54,15 +109,15 @@ onValue(shoppingListInDB, (snapshot) => {
         for (let i = 0; i < itemsArray.length; i++) {
 
             let currentItem = itemsArray[i];
-            console.log('This is the Current Items');
-            console.log(currentItem);
+            // console.log('This is the Current Items');
+            // console.log(currentItem);
 
             let currentItemID = currentItem[0];
-            console.log('This is the Current Items ID');
-            console.log(currentItemID);
+            // console.log('This is the Current Items ID');
+            // console.log(currentItemID);
             let currentItemValue = currentItem[1];
-            console.log('This is the Current Items Value');
-            console.log(currentItemValue);
+            // console.log('This is the Current Items Value');
+            // console.log(currentItemValue);
 
             addItemToShoppingList(currentItem);
             // addItemToShoppingList(itemsArray[i])
