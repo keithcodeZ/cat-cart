@@ -4,7 +4,8 @@ html, body {
     font-family: 'Rubik', sans-serif;
     background-color: #EEF0F4;
     color: #432000;
-    user-select: none;
+    user-select: none; 
+    /* user-select: none is to prevent highlighting objects in the user interface */
 }
 
 .container {
